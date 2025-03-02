@@ -1,76 +1,74 @@
 Cybersecurity Threat Dashboard
+
 Real-time Cybersecurity News and Alerts
 
-After getting tired of having to go to each website directly to get updates on threats, I decided to make my own. This is a very basic page that has real-time feeds.
+License: MIT
 
-The Cybersecurity Threat Dashboard is a real-time threat intelligence aggregator that pulls security alerts, advisories, and breaking news from multiple sources. It is designed for cybersecurity professionals to stay informed about the latest threats, vulnerabilities, and advisories in a single, easy-to-use dashboard.
+Last Updated: March 02, 2025
+
+Tired of visiting multiple websites for the latest cybersecurity updates? The Cybersecurity Threat Dashboard is a real-time threat intelligence aggregator that consolidates security alerts, advisories, and breaking news from trusted sources into a single, user-friendly interface. Designed for cybersecurity professionals, this tool helps you stay ahead of threats and vulnerabilities with minimal effort.
 Features
 
-    Real-time Threat Updates – Fetches cybersecurity alerts and news every 15 minutes
-    Multiple Security Sources – Includes feeds from CISA, BleepingComputer, SecurityWeek, The Hacker News, and Cyber Security News
-    Filtered Alerts – Displays only “CISA Releases” and “CISA Adds” advisories
-    WebSocket Support – Enables real-time updates without needing to refresh the page
-    Customizable Filtering – Search articles and filter by source
-    Responsive UI – Optimized with Bootstrap/Tailwind for a clean, dark-themed dashboard
-    Runs as a Systemd Service – Can be set up on a server for continuous monitoring
+    Real-time Threat Updates: Fetches cybersecurity alerts and news every 15 minutes.
+    Multiple Security Sources: Aggregates feeds from:
+        CISA
+        BleepingComputer
+        SecurityWeek
+        The Hacker News
+        Cyber Security News
+    Filtered Alerts: Displays only “CISA Releases” and “CISA Adds” advisories.
+    WebSocket Support: Real-time updates without page refreshes.
+    Customizable Filtering: Search articles and filter by source.
+    Responsive UI: Clean, dark-themed design optimized with Bootstrap/Tailwind.
+    Systemd Service: Runs continuously on a server for 24/7 monitoring.
 
 Installation & Setup
-1. Prerequisites
+Prerequisites
 
-Before installing, ensure you have the following:
+Before installing, ensure you have:
 
-    Node.js (v16+) & npm
-    Install on Ubuntu/Debian:
+    Node.js (v16+) and npm:
+    bash
 
 sudo apt update && sudo apt install -y nodejs npm
-
-Systemd (For Server Deployment) If running on Linux, ensure systemd is installed:
+Systemd (for server deployment):
+bash
 
     sudo systemctl --version
+    A server or local machine (Ubuntu, Debian, Windows via WSL2, or Mac).
 
-    A Server or Local Machine
-        Works on Ubuntu, Debian, Windows (via WSL2), or Mac.
+Steps
 
-2. Clone the Repository
+    Clone the Repository
+    bash
 
 git clone https://github.com/YOUR_USERNAME/cybersecurity-threat-dashboard.git
 cd cybersecurity-threat-dashboard
-
-3. Install Dependencies
-
+Install Dependencies
+bash
 npm install
-
-4. Configure RSS Feeds
-
-The dashboard automatically pulls feeds from:
-
-    BleepingComputer: https://www.bleepingcomputer.com/feed/
-    CISA Alerts: https://www.cisa.gov/cybersecurity-advisories/all.xml
-    SecurityWeek: https://feeds.feedburner.com/securityweek
-    The Hacker News: https://feeds.feedburner.com/TheHackersNews
-    Cyber Security News: https://cybersecuritynews.com/feed/
-
-To modify or add sources, edit:
-
+Configure RSS Feeds
+Feeds are preconfigured from the sources listed above. To modify or add feeds, edit server.js:
+bash
 nano server.js
+Update the RSS_FEEDS array with your preferred RSS URLs.
+Start the Server
+Run in development mode:
+bash
 
-Update the RSS_FEEDS array.
-5. Start the Server
+    node server/server.js
+    Access the dashboard at http://localhost:3000.
 
-Run the dashboard in development mode:
+Running as a Systemd Service (Production)
 
-node server/server.js
+To run the dashboard continuously on a server:
 
-Visit the dashboard at http://localhost:3000.
-Running as a Systemd Service (For Production)
-
-To ensure the dashboard runs automatically on boot, set it up as a systemd service.
-1. Create a Systemd Service File
+    Create a Systemd Service File
+    bash
 
 sudo nano /etc/systemd/system/cybersecurity-dashboard.service
-
-Paste the following:
-
+Add the following configuration:
+ini
 [Unit]
 Description=Cybersecurity Threat Dashboard
 After=network.target
@@ -93,87 +91,85 @@ SyslogIdentifier=cybersecurity-dashboard
 
 [Install]
 WantedBy=multi-user.target
-
-2. Enable and Start the Service
-
+Enable and Start the Service
+bash
 sudo systemctl daemon-reload
 sudo systemctl enable cybersecurity-dashboard
 sudo systemctl start cybersecurity-dashboard
+Check Service Status
+bash
 
-3. Check Service Status
-
-sudo systemctl status cybersecurity-dashboard
+    sudo systemctl status cybersecurity-dashboard
 
 Usage
 
-    Visit the dashboard at http://localhost:3000 (or http://your-server-ip:3000 for remote use).
-    Use the dropdown filter to select feeds from CISA, SecurityWeek, BleepingComputer, and more.
-    Search for keywords to find relevant security alerts.
-    Leave the service running to receive continuous real-time updates.
+    Navigate to http://localhost:3000 (or http://your-server-ip:3000 for remote access).
+    Use the dropdown to filter feeds by source (CISA, SecurityWeek, etc.).
+    Search keywords to find specific alerts.
+    Leave the service running for continuous updates.
 
 Customization
 
-    Modify Refresh Interval:
-    Change the WebSocket update frequency (default = 15 min) in server.js:
+    Modify Refresh Interval: Adjust the WebSocket update frequency (default: 15 minutes) in server.js:
+    javascript
 
     setInterval(async () => {
         const threats = await fetchRSSFeeds();
         io.emit('threatsUpdate', threats);
     }, 15 * 60 * 1000);
-
-    Add New Feeds:
-    Edit RSS_FEEDS in server.js and add your own cybersecurity RSS sources.
+    Add New Feeds: Update the RSS_FEEDS array in server.js.
 
 Troubleshooting
-Service Fails to Start (start-limit-hit)
 
-If the service fails to start repeatedly:
+    Service Fails to Start (start-limit-hit):
+    Reset and restart:
+    bash
 
 sudo systemctl reset-failed cybersecurity-dashboard
 sudo systemctl restart cybersecurity-dashboard
-
-Check logs:
-
+View logs:
+bash
 sudo journalctl -u cybersecurity-dashboard --no-pager --lines=50
-
-Check If Port 3000 Is Already In Use
-
+Port 3000 In Use:
+Check:
+bash
 sudo lsof -i :3000
-
 Kill the process:
-
+bash
 sudo kill -9 <PID>
+Debug Manually:
+bash
 
-Manually Run the Server to Debug
-
-node server/server.js --trace-warnings --inspect
+    node server/server.js --trace-warnings --inspect
 
 Security Considerations
 
-If deploying on a public server, consider:
+For public server deployment:
 
-    Using Nginx as a reverse proxy
-    Enabling HTTPS (Let's Encrypt SSL)
-    Restricting access to trusted IPs
+    Use Nginx as a reverse proxy.
+    Enable HTTPS with Let’s Encrypt SSL.
+    Restrict access to trusted IPs.
 
 Future Improvements
 
-    Add email alerts for critical security advisories
-    Implement historical threat data storage (SQLite/MongoDB)
-    Add custom WebSocket event notifications
+    Email alerts for critical advisories.
+    Historical threat data storage (SQLite/MongoDB).
+    Custom WebSocket event notifications.
 
 License
 
-This project is licensed under the MIT License. You are free to use, modify, and distribute it.
+This project is licensed under the MIT License. Feel free to use, modify, and distribute it.
 Contributing
 
-Want to improve the Cybersecurity Threat Dashboard?
+Want to enhance the dashboard?
 
-    Fork the repo
-    Create a new branch
-    Submit a pull request
+    Fork the repository.
+    Create a new branch.
+    Submit a pull request.
 
 Support & Contact
 
-For issues or feature requests, open a GitHub issue or contact:
-Email: j9allmarine17@gmail.com
+For issues or feature requests:
+
+    Open a GitHub issue.
+    Email: j9allmarine17@gmail.com
