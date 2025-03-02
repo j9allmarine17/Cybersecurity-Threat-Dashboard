@@ -7,6 +7,7 @@ License: MIT
 Last Updated: March 02, 2025
 
 Tired of visiting multiple websites for the latest cybersecurity updates? The Cybersecurity Threat Dashboard is a real-time threat intelligence aggregator that consolidates security alerts, advisories, and breaking news from trusted sources into a single, user-friendly interface. Designed for cybersecurity professionals, this tool helps you stay ahead of threats and vulnerabilities with minimal effort.
+
 Features
 
     Real-time Threat Updates: Fetches cybersecurity alerts and news every 15 minutes.
@@ -23,6 +24,7 @@ Features
     Systemd Service: Runs continuously on a server for 24/7 monitoring.
 
 Installation & Setup
+
 Prerequisites
 
 Before installing, ensure you have:
