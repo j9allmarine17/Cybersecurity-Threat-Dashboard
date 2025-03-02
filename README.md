@@ -233,7 +233,7 @@ Steps
     Clone the Repository
     bash
 
-git clone https://github.com/YOUR_USERNAME/cybersecurity-threat-dashboard.git
+git clone https://github.com/j9allmarine17/Cybersecurity-Threat-Dashboard.git
 cd cybersecurity-threat-dashboard
 Install Dependencies
 bash
