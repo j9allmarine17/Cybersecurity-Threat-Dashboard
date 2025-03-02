@@ -1,6 +1,8 @@
 Cybersecurity Threat Dashboard
 Real-time Cybersecurity News and Alerts
 
+After getting tired of having to go to each website directly to get updates on threats, I decided to make my own. This is a very basic page that has real-time feeds.
+
 The Cybersecurity Threat Dashboard is a real-time threat intelligence aggregator that pulls security alerts, advisories, and breaking news from multiple sources. It is designed for cybersecurity professionals to stay informed about the latest threats, vulnerabilities, and advisories in a single, easy-to-use dashboard.
 Features
 
