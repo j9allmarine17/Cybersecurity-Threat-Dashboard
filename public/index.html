@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cybersecurity Threat Dashboard</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <style>
+    /* Custom styles for a darker theme */
+    body {
+      background-color: #2c2c2c;
+      color: #e0e0e0;
+    }
+    .list-group-item {
+      background-color: #3a3a3a;
+      border-color: #4a4a4a;
+      color: #e0e0e0;
+    }
+    .list-group-item a {
+      color: #9ad1d4;
+      text-decoration: none;
+    }
+    .list-group-item a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center">Cybersecurity Threat Dashboard</h1>
+    <p class="text-center text-muted">Real-time updates from top cybersecurity sources</p>
+
+    <!-- Filters -->
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <input type="text" id="searchInput" class="form-control" placeholder="Search articles...">
+      </div>
+      <div class="col-md-6">
+        <select id="sourceFilter" class="form-select">
+          <option value="">All Sources</option>
+          <option value="BleepingComputer">BleepingComputer</option>
+          <option value="CISA">CISA</option>
+          <option value="Cyber Security News">Cyber Security News</option>
+          <option value="SecurityWeek">Security Week</option>
+          <option value="The Hacker News">The Hacker News</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Threat List -->
+    <div id="threatList" class="list-group"></div>
+  </div>
+
+  <!-- WebSockets -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="index.js"></script>
+</body>
+</html>
